@@ -6,6 +6,7 @@ import com.example.taskFlow.service.ProjectService;
 import com.example.taskFlow.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class TaskController {
     @PostMapping("/create/{userEmail}/{projectName}")
     public ResponseEntity<Object> createTask(@PathVariable String userEmail,
                                              @PathVariable String projectName,
-                                             @RequestBody TaskDto taskDto){
+                                             @Valid @RequestBody TaskDto taskDto){
         return new ResponseEntity<>(taskService.addTask(userEmail, projectName, taskDto), HttpStatus.CREATED);
     }
 
@@ -39,7 +40,7 @@ public class TaskController {
     public ResponseEntity<Object> updateTask(@PathVariable String userEmail,
                                              @PathVariable String projectName,
                                              @PathVariable String taskName,
-                                             @RequestBody TaskDto taskDto){
+                                             @Valid @RequestBody TaskDto taskDto){
         return new ResponseEntity<>(taskService.updateTask(userEmail,projectName, taskName, taskDto), HttpStatus.OK);
     }
 
@@ -50,13 +51,5 @@ public class TaskController {
                                              @PathVariable String taskName){
 
         return new ResponseEntity<>(taskService.deleteTask(userEmail, projectName, taskName),HttpStatus.OK);
-    }
-    @Operation(summary = "Assign an existing task")
-    @PostMapping("/assign/{email}/{projectName}/{taskName}")
-    public ResponseEntity<Object> createUser(@PathVariable String email,
-                                             @PathVariable String projectName,
-                                             @PathVariable String taskName){
-
-        return new ResponseEntity<>(/*taskService.assignTask(email, projectName, taskName),*/HttpStatus.OK);
     }
 }

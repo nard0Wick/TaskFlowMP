@@ -18,7 +18,7 @@ public class UserService {
 
     public User createUser(UserDto userDto){
         if(userRepository.existsByEmail(userDto.getUserEmail())){
-            throw new KeyAlreadyExistsException("Email "+ userDto.getUserEmail()+" is already used");
+            throw new KeyAlreadyExistsException("User \'"+ userDto.getUserEmail()+"\' is already related with an instance of User.Class");
         }
         return userRepository.save(new User(userDto.getUserName(),
                                      userDto.getUserLastName(),
@@ -29,7 +29,7 @@ public class UserService {
 
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Email "+ userEmail +" isn't related to any instance of User.class"));
+                        new IllegalArgumentException("Email \'"+ userEmail +"\' isn't related to any instance of User.class"));
         return new UserDto(
                 user.getName(),
                 user.getLastName(),
@@ -56,7 +56,7 @@ public class UserService {
     }
     public Boolean deleteUser(String email){
         User user = userRepository.findByEmail(email).orElseThrow(()->
-                new IllegalArgumentException("Email "+ email +" isn't related to any instance of User.class"));
+                new IllegalArgumentException("Email \'"+ email +"\' isn't related to any instance of User.class"));
 
         userRepository.deleteById(user.getId());
 

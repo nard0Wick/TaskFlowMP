@@ -1,5 +1,6 @@
 package com.example.taskFlow.dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class TaskDto {
+    @NotEmpty(message = "\'task's name\' cannot be blank")
     private String taskName;
     private String taskPriorityCode;
     private Date taskStartedOn;

@@ -4,6 +4,7 @@ import com.example.taskFlow.dto.UserDto;
 import com.example.taskFlow.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class UserController {
 
     @Operation(summary = "Create new user")
     @PostMapping("/create")
-    public ResponseEntity<Object> createUser(@RequestBody UserDto userDto){
+    public ResponseEntity<Object> createUser(@Valid @RequestBody UserDto userDto){
         return new ResponseEntity<>(userService.createUser(userDto), HttpStatus.CREATED);
     }
     @Operation(summary = "Get a user by email")
@@ -35,7 +36,7 @@ public class UserController {
     @PutMapping("/update/{email}")
     public ResponseEntity<Object> updateUser(@PathVariable String email,
                                              //@Valid
-                                             @RequestBody UserDto userDto){
+                                             @Valid @RequestBody UserDto userDto){
         return new ResponseEntity<>(userService.updateUser(email, userDto), HttpStatus.OK);
     }
     @Operation(summary = "Delete a user by email")
