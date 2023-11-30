@@ -1,5 +1,6 @@
 package com.example.taskFlow.controller;
 
+import com.example.taskFlow.dto.AuthenticationRequest;
 import com.example.taskFlow.dto.UserDto;
 import com.example.taskFlow.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,36 +12,46 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("user/")
+@RequestMapping(path = "/api-taskFlow")
 @Tag(name = "Users")
 public class UserController {
     @Autowired
     UserService userService;
 
     @Operation(summary = "Create new user")
-    @PostMapping("/create")
+    @PostMapping("/users/create")
     public ResponseEntity<Object> createUser(@Valid @RequestBody UserDto userDto){
         return new ResponseEntity<>(userService.createUser(userDto), HttpStatus.CREATED);
     }
+    @Operation(summary = "Register a new user")
+    @PostMapping("/users/register")
+    public ResponseEntity<Object> registerUser(@Valid @RequestBody UserDto userDto){
+        return new ResponseEntity<>(userService.registerUser(userDto), HttpStatus.CREATED);
+    }
+    @Operation(summary = "Authenticate an existing user")
+    @PostMapping("/users/authenticate")
+    public ResponseEntity<Object> authUser(@RequestBody AuthenticationRequest authRequest){
+        return new ResponseEntity<>(userService.authenticateUser(authRequest), HttpStatus.OK);
+    }
     @Operation(summary = "Get a user by email")
-    @GetMapping("/get/{email}")
+    @GetMapping("/users/get/{email}")
     public ResponseEntity<Object> getUser(@PathVariable String email){
         return new ResponseEntity<>(userService.getUser(email), HttpStatus.OK);
     }
     @Operation(summary = "Get all users")
-    @GetMapping("/getAll")
+    @GetMapping("/users/getAll")
     public ResponseEntity<Object> getAllUsers(){
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
     @Operation(summary = "Update a user by email")
-    @PutMapping("/update/{email}")
+    @PutMapping("/users/update/{email}")
     public ResponseEntity<Object> updateUser(@PathVariable String email,
                                              //@Valid
                                              @Valid @RequestBody UserDto userDto){
         return new ResponseEntity<>(userService.updateUser(email, userDto), HttpStatus.OK);
     }
     @Operation(summary = "Delete a user by email")
-    @DeleteMapping ("/delete/{email}")
+    @DeleteMapping ("/users/delete/{email}")
     public ResponseEntity<Object> delUser(@PathVariable String email){
 
         return new ResponseEntity<>(userService.deleteUser(email), HttpStatus.OK);

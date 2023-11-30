@@ -14,14 +14,14 @@ import org.springframework.scheduling.config.Task;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/task")
+@RequestMapping("/api-taskFlow")
 @Tag(name = "Tasks")
 public class TaskController {
     @Autowired
     TaskService taskService;
 
     @Operation(summary = "Add a task")
-    @PostMapping("/create/{userEmail}/{projectName}")
+    @PostMapping("/tasks/create/{userEmail}/{projectName}")
     public ResponseEntity<Object> createTask(@PathVariable String userEmail,
                                              @PathVariable String projectName,
                                              @Valid @RequestBody TaskDto taskDto){
@@ -29,14 +29,14 @@ public class TaskController {
     }
 
     @Operation(summary = "Get an existing task")
-    @GetMapping("/{userEmail}/{projectName}/{taskName}")
+    @GetMapping("/tasks/{userEmail}/{projectName}/{taskName}")
     public ResponseEntity<Object> getTask(@PathVariable String userEmail,
                                           @PathVariable String projectName,
                                           @PathVariable String taskName){
         return new ResponseEntity<>(taskService.getTask(userEmail, projectName, taskName), HttpStatus.OK);
     }
     @Operation(summary = "Update an existing task")
-    @PutMapping("/update/{userEmail}/{projectName}/{taskName}")
+    @PutMapping("/tasks/update/{userEmail}/{projectName}/{taskName}")
     public ResponseEntity<Object> updateTask(@PathVariable String userEmail,
                                              @PathVariable String projectName,
                                              @PathVariable String taskName,
@@ -45,7 +45,7 @@ public class TaskController {
     }
 
     @Operation(summary = "Delete an existing task")
-    @DeleteMapping("delete/{userEmail}/{projectName}/{taskName}")
+    @DeleteMapping("/tasks/delete/{userEmail}/{projectName}/{taskName}")
     public ResponseEntity<Object> deleteTask(@PathVariable String userEmail,
                                              @PathVariable String projectName,
                                              @PathVariable String taskName){

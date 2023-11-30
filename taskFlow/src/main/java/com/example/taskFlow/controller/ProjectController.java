@@ -17,27 +17,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/project")
+@RequestMapping(path = "/api-taskFlow")
 @Tag(name = "Projects")
 public class ProjectController {
     @Autowired
     ProjectService projectService;
 
     @Operation(summary = "Create new project")
-    @PostMapping("/create/{email}")
+    @PostMapping("/projects/create/{email}")
     public ResponseEntity<Object> createProject(@PathVariable String email,
                                              @Valid @RequestBody ProjectDto projectDto){
         return new ResponseEntity<>(projectService.createProject(email, projectDto), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Get an existing project")
-    @GetMapping("/{userEmail}/{projectName}")
+    @GetMapping("/projects/{userEmail}/{projectName}")
     public ResponseEntity<Object> getProject(@PathVariable String userEmail,
                                              @PathVariable String projectName){
         return new ResponseEntity<>(projectService.getProject(userEmail, projectName), HttpStatus.OK);
     }
     @Operation(summary = "Update an existing project")
-    @PutMapping("/update/{email}/{projectName}")
+    @PutMapping("/projects/update/{email}/{projectName}")
     public ResponseEntity<Object> updateProject(@PathVariable String email,
                                              @PathVariable String projectName,
                                              @Valid @RequestBody ProjectDto projectDto){
@@ -45,14 +45,14 @@ public class ProjectController {
     }
 
     @Operation(summary = "Delete an existing project")
-    @DeleteMapping("/{email}/{projectName}")
+    @DeleteMapping("/projects/{email}/{projectName}")
     public ResponseEntity<Object> deleteProject(@PathVariable String email, @PathVariable String projectName){
 
         return new ResponseEntity<>(projectService.deleteProject(email, projectName), HttpStatus.OK);
     }
 
     @Operation(summary = "Add people to the party!")
-    @PostMapping("/AddPeople/{email}/{projectName}")
+    @PostMapping("/projects/AddPeople/{email}/{projectName}")
     public ResponseEntity<Object> joinProject(@PathVariable String email,
                                               @PathVariable String projectName,
                                               @Valid @RequestBody Set<SideDto> sideDtoSet){
